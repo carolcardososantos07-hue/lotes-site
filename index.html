@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mapa de Lotes</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    .legenda {
+      margin-bottom: 25px;
+    }
+
+    .legenda span {
+      display: inline-block;
+      margin: 6px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+
+    .disponivel { background: white; border: 2px solid #999; }
+    .reservado { background: #ffd966; }
+    .vendido { background: #e06666; color: white; }
+
+    .mapa {
+      display: grid;
+      grid-template-columns: repeat(9, 70px);
+      gap: 10px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .lote {
+      height: 70px;
+      border-radius: 10px;
+      border: 2px solid #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    .info {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    @media (max-width: 800px) {
+      .mapa {
+        grid-template-columns: repeat(4, 70px);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Mapa de Lotes</h1>
+
+  <div class="legenda">
+    <span class="disponivel">Disponível</span>
+    <span class="reservado">Reservado</span>
+    <span class="vendido">Vendido</span>
+  </div>
+
+  <div id="mapa" class="mapa"></div>
+  <div id="info" class="info"></div>
+
+  <script>
+    const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQgfBPxf18hlR11ou3PgRHmFryyIqpzBC47paSjzktM3nwf5ZL92NhJ5pkdZ3smXarjU6AfPFR0ZKrf/pub?gid=0&single=true&output=csv";
+
+    async function carregarLotes() {
+      const resposta = await fetch(CSV_URL);
+      const texto = await resposta.text();
+
+      const linhas = texto.trim().split("\n");
+      const cabecalho = linhas[0].split(",").map(c => c.trim().toLowerCase());
+
+      const lotes = linhas.slice(1).map(linha => {
+        const colunas = linha.split(",");
+        let item = {};
+
+        cabecalho.forEach((nome, index) => {
+          item[nome] = colunas[index]?.trim() || "";
+        });
+
+        return item;
+      });
+
+      desenharMapa(lotes);
+    }
+
+    function desenharMapa(lotes) {
+      const mapa = document.getElementById("mapa");
+      mapa.innerHTML = "";
+
+      lotes.forEach(lote => {
+        const div = document.createElement("div");
+
+        const status = (lote.status || "disponivel").toLowerCase();
+
+        div.className = `lote ${status}`;
+        div.innerText = lote.lote;
+
+        div.onclick = () => {
+          document.getElementById("info").innerText =
+            `Lote ${lote.lote} - ${status.toUpperCase()} ${lote.cliente ? "- Cliente: " + lote.cliente : ""}`;
+        };
+
+        mapa.appendChild(div);
+      });
+    }
+
+    carregarLotes();
+  </script>
+
+</body>
+</html>
