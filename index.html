@@ -162,61 +162,95 @@
       padding-bottom: 6px;
     }
 
-    @media (max-width: 600px) {
-      body {
-        overflow-x: auto;
-      }
+  @media (max-width: 600px) {
+  body {
+    overflow-x: hidden;
+  }
 
-      header {
-        padding-top: 8px;
-      }
+  header {
+    padding: 8px 6px 2px;
+  }
 
-      .subtitulo {
-        display: none;
-      }
+  .logo {
+    font-size: 10px;
+    letter-spacing: 3px;
+  }
 
-      .resumo {
-        gap: 5px;
-      }
+  h1 {
+    font-size: 22px;
+    line-height: 1.1;
+  }
 
-      .card {
-        font-size: 11px;
-        padding: 6px 4px;
-      }
+  .subtitulo {
+    display: none;
+  }
 
-      .legenda {
-        gap: 7px;
-        font-size: 11px;
-      }
+  .resumo {
+    gap: 4px;
+    margin: 6px auto;
+    padding: 0 4px;
+  }
 
-      .area-mapa {
-        width: 98vw;
-        padding: 2px 5px;
-      }
+  .card {
+    font-size: 10px;
+    padding: 6px 3px;
+    border-radius: 8px;
+  }
 
-      .mapa {
-        gap: 4px;
-      }
+  .legenda {
+    gap: 6px;
+    font-size: 10px;
+    margin: 6px 0;
+  }
 
-      .lote {
-        min-height: 36px;
-        border-radius: 6px;
-        font-size: 12px;
-      }
+  .cor {
+    width: 11px;
+    height: 11px;
+  }
 
-      .rua {
-        font-size: 10px;
-        padding: 5px;
-      }
+  .area-mapa {
+    width: 100vw;
+    padding: 2px 4px 4px;
+  }
 
-      .info {
-        font-size: 12px;
-      }
+  .rua {
+    margin: 4px auto;
+    padding: 4px;
+    font-size: 9px;
+    letter-spacing: 2px;
+    border-radius: 12px;
+  }
 
-      footer {
-        display: none;
-      }
-    }
+  .mapa {
+    grid-template-columns: repeat(9, 1fr);
+    gap: 3px;
+    margin: 5px 0;
+  }
+
+  .lote {
+    min-height: 30px;
+    aspect-ratio: 1 / 0.85;
+    border-radius: 5px;
+    border: 1px solid #333;
+    font-size: 11px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.15);
+  }
+
+  .lote:hover {
+    transform: none;
+  }
+
+  .info {
+    min-height: 22px;
+    margin-top: 4px;
+    font-size: 11px;
+    padding: 0 6px;
+  }
+
+  footer {
+    display: none;
+  }
+}
 
     @media (max-height: 720px) and (min-width: 700px) {
       .subtitulo, footer {
