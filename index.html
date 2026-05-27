@@ -3,80 +3,199 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mapa de Lotes</title>
+  <title>Recanto do Urutau - Mapa de Lotes</title>
+
   <style>
     body {
+      margin: 0;
       font-family: Arial, sans-serif;
-      background: #f4f4f4;
-      padding: 20px;
+      background: linear-gradient(180deg, #f7f4ec, #ffffff);
+      color: #222;
       text-align: center;
     }
 
+    header {
+      padding: 28px 15px 10px;
+    }
+
+    .logo {
+      font-size: 13px;
+      letter-spacing: 3px;
+      font-weight: bold;
+    }
+
     h1 {
-      margin-bottom: 10px;
+      margin: 8px 0 0;
+      font-size: 32px;
+    }
+
+    .subtitulo {
+      color: #666;
+      margin-top: 5px;
+    }
+
+    .resumo {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin: 22px 0;
+    }
+
+    .card {
+      background: white;
+      border-radius: 14px;
+      padding: 12px 18px;
+      box-shadow: 0 4px 14px rgba(0,0,0,.08);
+      font-weight: bold;
     }
 
     .legenda {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
       margin-bottom: 25px;
     }
 
     .legenda span {
-      display: inline-block;
-      margin: 6px;
-      padding: 8px 12px;
-      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
       font-weight: bold;
     }
 
-    .disponivel { background: white; border: 2px solid #999; }
-    .reservado { background: #ffd966; }
-    .vendido { background: #e06666; color: white; }
+    .cor {
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      border: 1px solid #777;
+    }
+
+    .cor.disponivel { background: #fff; }
+    .cor.reservado { background: #ffd966; }
+    .cor.vendido { background: #d93025; }
+
+    .area-mapa {
+      max-width: 1050px;
+      margin: auto;
+      padding: 10px 20px 40px;
+    }
+
+    .rua {
+      margin: 12px auto;
+      max-width: 850px;
+      padding: 8px;
+      border-top: 2px solid #999;
+      border-bottom: 2px solid #999;
+      color: #666;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
 
     .mapa {
       display: grid;
-      grid-template-columns: repeat(9, 70px);
-      gap: 10px;
+      grid-template-columns: repeat(9, 82px);
+      gap: 14px;
       justify-content: center;
-      margin-top: 20px;
+      margin: 20px 0;
     }
 
     .lote {
-      height: 70px;
+      height: 92px;
       border-radius: 10px;
       border: 2px solid #333;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: bold;
+      font-size: 22px;
+      font-weight: 800;
       cursor: pointer;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 8px rgba(0,0,0,.18);
+      transition: .2s;
+    }
+
+    .lote:hover {
+      transform: scale(1.05);
+    }
+
+    .disponivel {
+      background: #ffffff;
+      color: #111;
+    }
+
+    .reservado {
+      background: #ffd966;
+      color: #111;
+    }
+
+    .vendido {
+      background: #d93025;
+      color: #fff;
     }
 
     .info {
+      min-height: 35px;
       margin-top: 20px;
       font-size: 18px;
       font-weight: bold;
     }
 
-    @media (max-width: 800px) {
+    footer {
+      font-size: 12px;
+      color: #777;
+      padding-bottom: 25px;
+    }
+
+    @media (max-width: 850px) {
       .mapa {
-        grid-template-columns: repeat(4, 70px);
+        grid-template-columns: repeat(4, 72px);
+        gap: 10px;
+      }
+
+      .lote {
+        height: 78px;
+        font-size: 19px;
+      }
+
+      h1 {
+        font-size: 25px;
       }
     }
   </style>
 </head>
+
 <body>
 
-  <h1>Mapa de Lotes</h1>
+  <header>
+    <div class="logo">RECANTO DO URUTAU</div>
+    <h1>Mapa de Lotes</h1>
+    <div class="subtitulo">Controle de disponibilidade em tempo real</div>
+  </header>
 
-  <div class="legenda">
-    <span class="disponivel">Disponível</span>
-    <span class="reservado">Reservado</span>
-    <span class="vendido">Vendido</span>
-  </div>
+  <section class="resumo">
+    <div class="card">Disponíveis: <span id="qtdDisponivel">0</span></div>
+    <div class="card">Reservados: <span id="qtdReservado">0</span></div>
+    <div class="card">Vendidos: <span id="qtdVendido">0</span></div>
+  </section>
 
-  <div id="mapa" class="mapa"></div>
-  <div id="info" class="info"></div>
+  <section class="legenda">
+    <span><div class="cor disponivel"></div> Disponível</span>
+    <span><div class="cor reservado"></div> Reservado</span>
+    <span><div class="cor vendido"></div> Vendido</span>
+  </section>
+
+  <main class="area-mapa">
+    <div class="rua">Rua Principal</div>
+    <div id="mapa" class="mapa"></div>
+    <div class="rua">Área interna do condomínio</div>
+    <div id="info" class="info"></div>
+  </main>
+
+  <footer>
+    Atualizado automaticamente pela planilha Google Sheets
+  </footer>
 
   <script>
     const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQgfBPxf18hlR11ou3PgRHmFryyIqpzBC47paSjzktM3nwf5ZL92NhJ5pkdZ3smXarjU6AfPFR0ZKrf/pub?gid=0&single=true&output=csv";
@@ -100,6 +219,7 @@
       });
 
       desenharMapa(lotes);
+      atualizarResumo(lotes);
     }
 
     function desenharMapa(lotes) {
@@ -108,19 +228,38 @@
 
       lotes.forEach(lote => {
         const div = document.createElement("div");
-
-        const status = (lote.status || "disponivel").toLowerCase();
+        const status = normalizarStatus(lote.status);
 
         div.className = `lote ${status}`;
         div.innerText = lote.lote;
 
         div.onclick = () => {
           document.getElementById("info").innerText =
-            `Lote ${lote.lote} - ${status.toUpperCase()} ${lote.cliente ? "- Cliente: " + lote.cliente : ""}`;
+            `Lote ${lote.lote} - ${status.toUpperCase()}${lote.cliente ? " - Cliente: " + lote.cliente : ""}`;
         };
 
         mapa.appendChild(div);
       });
+    }
+
+    function atualizarResumo(lotes) {
+      document.getElementById("qtdDisponivel").innerText =
+        lotes.filter(l => normalizarStatus(l.status) === "disponivel").length;
+
+      document.getElementById("qtdReservado").innerText =
+        lotes.filter(l => normalizarStatus(l.status) === "reservado").length;
+
+      document.getElementById("qtdVendido").innerText =
+        lotes.filter(l => normalizarStatus(l.status) === "vendido").length;
+    }
+
+    function normalizarStatus(status) {
+      status = (status || "disponivel").toLowerCase().trim();
+
+      if (status.includes("vend")) return "vendido";
+      if (status.includes("reserv")) return "reservado";
+
+      return "disponivel";
     }
 
     carregarLotes();
