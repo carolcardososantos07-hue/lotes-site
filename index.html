@@ -79,7 +79,7 @@ h1 {
 .cor.vendido { background: #d93025; }
 
 .area-mapa {
-  width: min(96vw, 980px);
+  width: min(96vw, 1100px);
   margin: auto;
   padding: 6px;
 }
@@ -98,7 +98,7 @@ h1 {
 
 .mapa-loteamento {
   display: grid;
-  grid-template-columns: 1fr 42px 1fr 1fr 42px 1fr;
+  grid-template-columns: 1.35fr 42px 1fr 1fr 42px 1.35fr;
   gap: 6px;
   align-items: stretch;
 }
@@ -120,6 +120,11 @@ h1 {
   font-weight: 800;
   cursor: pointer;
   box-shadow: 0 1px 4px rgba(0,0,0,.15);
+}
+
+.lote-maior {
+  min-height: 42px;
+  font-size: 15px;
 }
 
 .rua-vertical {
@@ -189,19 +194,24 @@ footer {
   }
 
   .mapa-loteamento {
-    grid-template-columns: 1fr 22px 1fr 1fr 22px 1fr;
+    grid-template-columns: 1.35fr 20px 1fr 1fr 20px 1.35fr;
     gap: 3px;
   }
 
   .lote {
-    min-height: 28px;
-    font-size: 11px;
+    min-height: 27px;
+    font-size: 10px;
     border-radius: 4px;
+  }
+
+  .lote-maior {
+    min-height: 34px;
+    font-size: 11px;
   }
 
   .rua-vertical {
     font-size: 8px;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     border-radius: 8px;
   }
 
@@ -299,8 +309,14 @@ function desenharMapa(lotes) {
     grupos[id].forEach(lote => {
       const div = document.createElement("div");
       const status = normalizarStatus(lote.status);
+      const numero = numeroLote(lote.lote);
 
       div.className = `lote ${status}`;
+
+      if ((numero >= 1 && numero <= 13) || (numero >= 42 && numero <= 54)) {
+        div.classList.add("lote-maior");
+      }
+
       div.innerText = lote.lote;
 
       div.onclick = () => {
