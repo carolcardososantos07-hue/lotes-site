@@ -1,379 +1,344 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lotes Chácara das Mansões</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lotes Chácara das Mansões</title>
 
-  <style>
-    * { box-sizing: border-box; }
+<style>
+* { box-sizing: border-box; }
 
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(180deg, #f7f4ec, #ffffff);
-      color: #222;
-      text-align: center;
-      overflow-x: hidden;
-    }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f7f4ec;
+  text-align: center;
+  color: #222;
+}
 
-    header {
-      padding: 10px 10px 4px;
-    }
+header {
+  padding: 10px 8px 4px;
+}
 
-    .logo {
-      font-size: 12px;
-      letter-spacing: 4px;
-      font-weight: 800;
-      color: #244b28;
-    }
+.logo {
+  font-size: 12px;
+  letter-spacing: 4px;
+  font-weight: 800;
+  color: #244b28;
+}
 
-    h1 {
-      margin: 3px 0 0;
-      font-size: clamp(22px, 4vw, 34px);
-      color: #143c18;
-    }
+h1 {
+  margin: 3px 0;
+  font-size: clamp(22px, 4vw, 34px);
+  color: #143c18;
+}
 
-    .subtitulo {
-      color: #666;
-      margin-top: 2px;
-      font-size: 13px;
-    }
+.resumo {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 8px auto;
+  max-width: 720px;
+  padding: 0 8px;
+}
 
-    .resumo {
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-      flex-wrap: nowrap;
-      margin: 8px auto;
-      padding: 0 8px;
-      max-width: 720px;
-    }
+.card {
+  background: white;
+  border-radius: 10px;
+  padding: 7px 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.08);
+  font-weight: bold;
+  font-size: 13px;
+  flex: 1;
+}
 
-    .card {
-      background: white;
-      border-radius: 10px;
-      padding: 7px 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,.08);
-      font-weight: bold;
-      font-size: 13px;
-      flex: 1;
-      min-width: 0;
-    }
+.legenda {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin: 8px 0;
+  font-size: 13px;
+  font-weight: bold;
+}
 
-    .legenda {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: nowrap;
-      margin: 8px 0;
-      font-size: 13px;
-    }
+.legenda span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
 
-    .legenda span {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      font-weight: bold;
-      white-space: nowrap;
-    }
+.cor {
+  width: 15px;
+  height: 15px;
+  border: 1px solid #777;
+  border-radius: 4px;
+}
 
-    .cor {
-      width: 15px;
-      height: 15px;
-      border-radius: 4px;
-      border: 1px solid #777;
-    }
+.cor.disponivel { background: #fff; }
+.cor.reservado { background: #ffd966; }
+.cor.vendido { background: #d93025; }
 
-    .cor.disponivel { background: #fff; }
-    .cor.reservado { background: #ffd966; }
-    .cor.vendido { background: #d93025; }
+.area-mapa {
+  width: min(96vw, 980px);
+  margin: auto;
+  padding: 6px;
+}
 
-    .area-mapa {
-      width: min(96vw, 760px);
-      margin: auto;
-      padding: 4px 8px 8px;
-    }
+.rua-topo {
+  background: #244b28;
+  color: white;
+  padding: 7px;
+  border-radius: 18px;
+  font-size: 13px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
 
-    .rua {
-      margin: 6px auto;
-      padding: 6px;
-      border-radius: 18px;
-      background: #244b28;
-      color: #fff;
-      font-size: 12px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      font-weight: bold;
-    }
+.mapa-loteamento {
+  display: grid;
+  grid-template-columns: 1fr 42px 1fr 1fr 42px 1fr;
+  gap: 6px;
+  align-items: stretch;
+}
 
-    .mapa {
-      display: grid;
-      grid-template-columns: repeat(9, 1fr);
-      gap: 7px;
-      justify-content: center;
-      margin: 8px 0;
-    }
+.coluna-lotes {
+  display: grid;
+  grid-template-rows: repeat(14, 1fr);
+  gap: 4px;
+}
 
-    .lote {
-      aspect-ratio: 1 / 0.78;
-      border-radius: 8px;
-      border: 1.5px solid #333;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: clamp(13px, 2vw, 18px);
-      font-weight: 800;
-      cursor: pointer;
-      box-shadow: 0 2px 5px rgba(0,0,0,.15);
-      transition: .2s;
-      min-height: 42px;
-    }
+.lote {
+  min-height: 34px;
+  border-radius: 6px;
+  border: 1.4px solid #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0,0,0,.15);
+}
 
-    .lote:hover {
-      transform: scale(1.04);
-    }
+.rua-vertical {
+  background: #e8e3d6;
+  border-left: 2px solid #b9b09c;
+  border-right: 2px solid #b9b09c;
+  border-radius: 14px;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  color: #555;
+  text-transform: uppercase;
+}
 
-    .disponivel {
-      background: #ffffff;
-      color: #111;
-    }
+.disponivel {
+  background: #fff;
+  color: #111;
+}
 
-    .reservado {
-      background: #ffd966;
-      color: #111;
-    }
+.reservado {
+  background: #ffd966;
+  color: #111;
+}
 
-    .vendido {
-      background: #d93025;
-      color: #fff;
-    }
+.vendido {
+  background: #d93025;
+  color: #fff;
+}
 
-    .info {
-      min-height: 28px;
-      margin-top: 6px;
-      font-size: 14px;
-      font-weight: bold;
-    }
+.info {
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  min-height: 24px;
+}
 
-    footer {
-      font-size: 11px;
-      color: #777;
-      padding-bottom: 6px;
-    }
+footer {
+  font-size: 11px;
+  color: #777;
+  padding: 6px;
+}
 
-  @media (max-width: 600px) {
-  body {
-    overflow-x: hidden;
-  }
-
-  header {
-    padding: 8px 6px 2px;
-  }
-
-  .logo {
-    font-size: 10px;
-    letter-spacing: 3px;
-  }
-
-  h1 {
-    font-size: 22px;
-    line-height: 1.1;
-  }
-
-  .subtitulo {
-    display: none;
-  }
-
+@media (max-width: 600px) {
   .resumo {
     gap: 4px;
-    margin: 6px auto;
     padding: 0 4px;
   }
 
   .card {
     font-size: 10px;
     padding: 6px 3px;
-    border-radius: 8px;
   }
 
   .legenda {
-    gap: 6px;
     font-size: 10px;
-    margin: 6px 0;
-  }
-
-  .cor {
-    width: 11px;
-    height: 11px;
+    gap: 7px;
   }
 
   .area-mapa {
     width: 100vw;
-    padding: 2px 4px 4px;
+    padding: 4px;
   }
 
-  .rua {
-    margin: 4px auto;
-    padding: 4px;
-    font-size: 9px;
-    letter-spacing: 2px;
-    border-radius: 12px;
+  .mapa-loteamento {
+    grid-template-columns: 1fr 22px 1fr 1fr 22px 1fr;
+    gap: 3px;
   }
-    
-    .mapa {
-  grid-template-columns: repeat(6, 1fr);
-  gap: 5px;
-  margin: 6px 0;
- }
 
   .lote {
-    min-height: 30px;
-    aspect-ratio: 1 / 0.85;
-    border-radius: 5px;
-    border: 1px solid #333;
+    min-height: 28px;
     font-size: 11px;
-    box-shadow: 0 1px 3px rgba(0,0,0,.15);
+    border-radius: 4px;
   }
 
-  .lote:hover {
-    transform: none;
+  .rua-vertical {
+    font-size: 8px;
+    letter-spacing: 2px;
+    border-radius: 8px;
   }
 
-  .info {
-    min-height: 22px;
-    margin-top: 4px;
-    font-size: 11px;
-    padding: 0 6px;
+  .rua-topo {
+    font-size: 10px;
+    padding: 5px;
   }
 
   footer {
     display: none;
   }
 }
-
-    @media (max-height: 720px) and (min-width: 700px) {
-      .subtitulo, footer {
-        display: none;
-      }
-
-      .lote {
-        min-height: 38px;
-      }
-
-      .mapa {
-        gap: 5px;
-      }
-
-      .card {
-        padding: 5px 8px;
-      }
-
-      h1 {
-        font-size: 26px;
-      }
-    }
-  </style>
+</style>
 </head>
 
 <body>
 
-  <header>
-    <div class="logo">LOTES</div>
-    <h1>Chácara das Mansões</h1>
-    <div class="subtitulo">Controle de disponibilidade em tempo real</div>
-  </header>
+<header>
+  <div class="logo">LOTES</div>
+  <h1>Chácara das Mansões</h1>
+</header>
 
-  <section class="resumo">
-    <div class="card">Disponíveis: <span id="qtdDisponivel">0</span></div>
-    <div class="card">Reservados: <span id="qtdReservado">0</span></div>
-    <div class="card">Vendidos: <span id="qtdVendido">0</span></div>
-  </section>
+<section class="resumo">
+  <div class="card">Disponíveis: <span id="qtdDisponivel">0</span></div>
+  <div class="card">Reservados: <span id="qtdReservado">0</span></div>
+  <div class="card">Vendidos: <span id="qtdVendido">0</span></div>
+</section>
 
-  <section class="legenda">
-    <span><div class="cor disponivel"></div> Disponível</span>
-    <span><div class="cor reservado"></div> Reservado</span>
-    <span><div class="cor vendido"></div> Vendido</span>
-  </section>
+<section class="legenda">
+  <span><div class="cor disponivel"></div> Disponível</span>
+  <span><div class="cor reservado"></div> Reservado</span>
+  <span><div class="cor vendido"></div> Vendido</span>
+</section>
 
-  <main class="area-mapa">
-    <div class="rua">Rua Arcádia</div>
-    <div id="mapa" class="mapa"></div>
-    <div class="rua">Área interna do condomínio</div>
-    <div id="info" class="info">Clique em um lote para ver mais informações.</div>
-  </main>
+<main class="area-mapa">
+  <div class="rua-topo">Rua Arcádia</div>
 
-  <footer>
-    Atualizado automaticamente pela planilha Google Sheets
-  </footer>
+  <div class="mapa-loteamento">
+    <div id="grupo1" class="coluna-lotes"></div>
 
-  <script>
-    const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQgfBPxf18hlR11ou3PgRHmFryyIqpzBC47paSjzktM3nwf5ZL92NhJ5pkdZ3smXarjU6AfPFR0ZKrf/pub?gid=0&single=true&output=csv";
+    <div class="rua-vertical">Rua Interna</div>
 
-    async function carregarLotes() {
-      const resposta = await fetch(CSV_URL);
-      const texto = await resposta.text();
+    <div id="grupo2" class="coluna-lotes"></div>
+    <div id="grupo3" class="coluna-lotes"></div>
 
-      const linhas = texto.trim().split("\n");
-      const cabecalho = linhas[0].split(",").map(c => c.trim().toLowerCase());
+    <div class="rua-vertical">Rua Interna</div>
 
-      const lotes = linhas.slice(1).map(linha => {
-        const colunas = linha.split(",");
-        let item = {};
+    <div id="grupo4" class="coluna-lotes"></div>
+  </div>
 
-        cabecalho.forEach((nome, index) => {
-          item[nome] = colunas[index]?.trim() || "";
-        });
+  <div id="info" class="info">Clique em um lote para ver mais informações.</div>
+</main>
 
-        return item;
-      });
+<footer>
+  Atualizado automaticamente pela planilha Google Sheets
+</footer>
 
-      desenharMapa(lotes);
-      atualizarResumo(lotes);
-    }
+<script>
+const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQgfBPxf18hlR11ou3PgRHmFryyIqpzBC47paSjzktM3nwf5ZL92NhJ5pkdZ3smXarjU6AfPFR0ZKrf/pub?gid=0&single=true&output=csv";
 
-    function desenharMapa(lotes) {
-      const mapa = document.getElementById("mapa");
-      mapa.innerHTML = "";
+async function carregarLotes() {
+  const resposta = await fetch(CSV_URL);
+  const texto = await resposta.text();
 
-      lotes.forEach(lote => {
-        const div = document.createElement("div");
-        const status = normalizarStatus(lote.status);
+  const linhas = texto.trim().split("\n");
+  const cabecalho = linhas[0].split(",").map(c => c.trim().toLowerCase());
 
-        div.className = `lote ${status}`;
-        div.innerText = lote.lote;
+  const lotes = linhas.slice(1).map(linha => {
+    const colunas = linha.split(",");
+    let item = {};
 
-        div.onclick = () => {
-          document.getElementById("info").innerText =
-            `Lote ${lote.lote} - ${status.toUpperCase()}${lote.cliente ? " - Cliente: " + lote.cliente : ""}`;
-        };
+    cabecalho.forEach((nome, index) => {
+      item[nome] = colunas[index]?.trim() || "";
+    });
 
-        mapa.appendChild(div);
-      });
-    }
+    return item;
+  });
 
-    function atualizarResumo(lotes) {
-      document.getElementById("qtdDisponivel").innerText =
-        lotes.filter(l => normalizarStatus(l.status) === "disponivel").length;
+  desenharMapa(lotes);
+  atualizarResumo(lotes);
+}
 
-      document.getElementById("qtdReservado").innerText =
-        lotes.filter(l => normalizarStatus(l.status) === "reservado").length;
+function desenharMapa(lotes) {
+  const grupos = {
+    grupo1: lotes.filter(l => numeroLote(l.lote) >= 1 && numeroLote(l.lote) <= 13),
+    grupo2: lotes.filter(l => numeroLote(l.lote) >= 14 && numeroLote(l.lote) <= 27),
+    grupo3: lotes.filter(l => numeroLote(l.lote) >= 28 && numeroLote(l.lote) <= 41),
+    grupo4: lotes.filter(l => numeroLote(l.lote) >= 42 && numeroLote(l.lote) <= 54)
+  };
 
-      document.getElementById("qtdVendido").innerText =
-        lotes.filter(l => normalizarStatus(l.status) === "vendido").length;
-    }
+  Object.keys(grupos).forEach(id => {
+    const coluna = document.getElementById(id);
+    coluna.innerHTML = "";
 
-    function normalizarStatus(status) {
-      status = (status || "disponivel").toLowerCase().trim();
+    grupos[id].forEach(lote => {
+      const div = document.createElement("div");
+      const status = normalizarStatus(lote.status);
 
-      if (status.includes("vend")) return "vendido";
-      if (status.includes("reserv")) return "reservado";
+      div.className = `lote ${status}`;
+      div.innerText = lote.lote;
 
-      return "disponivel";
-    }
+      div.onclick = () => {
+        document.getElementById("info").innerText =
+          `Lote ${lote.lote} - ${status.toUpperCase()}${lote.cliente ? " - Cliente: " + lote.cliente : ""}`;
+      };
 
-    carregarLotes();
-  </script>
+      coluna.appendChild(div);
+    });
+  });
+}
+
+function atualizarResumo(lotes) {
+  document.getElementById("qtdDisponivel").innerText =
+    lotes.filter(l => normalizarStatus(l.status) === "disponivel").length;
+
+  document.getElementById("qtdReservado").innerText =
+    lotes.filter(l => normalizarStatus(l.status) === "reservado").length;
+
+  document.getElementById("qtdVendido").innerText =
+    lotes.filter(l => normalizarStatus(l.status) === "vendido").length;
+}
+
+function normalizarStatus(status) {
+  status = (status || "disponivel").toLowerCase().trim();
+
+  if (status.includes("vend")) return "vendido";
+  if (status.includes("reserv")) return "reservado";
+
+  return "disponivel";
+}
+
+function numeroLote(lote) {
+  return parseInt(String(lote).replace(/\D/g, ""), 10);
+}
+
+carregarLotes();
+</script>
 
 </body>
 </html>
