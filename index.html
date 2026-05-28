@@ -79,7 +79,7 @@ h1 {
 .cor.vendido { background: #d93025; }
 
 .area-mapa {
-  width: min(96vw, 1100px);
+  width: min(96vw, 1050px);
   margin: auto;
   padding: 6px;
 }
@@ -98,19 +98,48 @@ h1 {
 
 .mapa-loteamento {
   display: grid;
-  grid-template-columns: 1.35fr 42px 1fr 1fr 42px 1.35fr;
+  grid-template-columns: 1fr 42px 1fr 1fr 42px 1fr;
   gap: 6px;
   align-items: stretch;
 }
 
-.coluna-lotes {
+.coluna-externa {
+  display: grid;
+  grid-template-rows: repeat(13, 1fr);
+  gap: 4px;
+  min-height: 560px;
+}
+
+.coluna-meio {
   display: grid;
   grid-template-rows: repeat(14, 1fr);
   gap: 4px;
+  min-height: 470px;
+}
+
+.bloco-meio {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.parquinho {
+  margin-top: 8px;
+  height: 82px;
+  border: 2px dashed #b9b09c;
+  border-radius: 12px;
+  background: #f1ecdf;
+  color: #244b28;
+  font-weight: bold;
+  font-size: 13px;
+  letter-spacing: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
 }
 
 .lote {
-  min-height: 34px;
   border-radius: 6px;
   border: 1.4px solid #333;
   display: flex;
@@ -120,11 +149,6 @@ h1 {
   font-weight: 800;
   cursor: pointer;
   box-shadow: 0 1px 4px rgba(0,0,0,.15);
-}
-
-.lote-maior {
-  min-height: 42px;
-  font-size: 15px;
 }
 
 .rua-vertical {
@@ -142,6 +166,7 @@ h1 {
   letter-spacing: 3px;
   color: #555;
   text-transform: uppercase;
+  min-height: 560px;
 }
 
 .disponivel {
@@ -173,11 +198,6 @@ footer {
 }
 
 @media (max-width: 600px) {
-  .resumo {
-    gap: 4px;
-    padding: 0 4px;
-  }
-
   .card {
     font-size: 10px;
     padding: 6px 3px;
@@ -194,22 +214,34 @@ footer {
   }
 
   .mapa-loteamento {
-    grid-template-columns: 1.35fr 20px 1fr 1fr 20px 1.35fr;
+    grid-template-columns: 1fr 20px 1fr 1fr 20px 1fr;
     gap: 3px;
   }
 
+  .coluna-externa {
+    min-height: 430px;
+    gap: 3px;
+  }
+
+  .coluna-meio {
+    min-height: 350px;
+    gap: 3px;
+  }
+
+  .parquinho {
+    height: 70px;
+    font-size: 8px;
+    letter-spacing: 1px;
+    margin-top: 5px;
+  }
+
   .lote {
-    min-height: 27px;
     font-size: 10px;
     border-radius: 4px;
   }
 
-  .lote-maior {
-    min-height: 34px;
-    font-size: 11px;
-  }
-
   .rua-vertical {
+    min-height: 430px;
     font-size: 8px;
     letter-spacing: 1px;
     border-radius: 8px;
@@ -250,16 +282,22 @@ footer {
   <div class="rua-topo">Rua Arcádia</div>
 
   <div class="mapa-loteamento">
-    <div id="grupo1" class="coluna-lotes"></div>
+    <div id="grupo1" class="coluna-externa"></div>
 
     <div class="rua-vertical">Rua Interna</div>
 
-    <div id="grupo2" class="coluna-lotes"></div>
-    <div id="grupo3" class="coluna-lotes"></div>
+    <div class="bloco-meio">
+      <div id="grupo2" class="coluna-meio"></div>
+    </div>
+
+    <div class="bloco-meio">
+      <div id="grupo3" class="coluna-meio"></div>
+      <div class="parquinho">Futuro Parquinho</div>
+    </div>
 
     <div class="rua-vertical">Rua Interna</div>
 
-    <div id="grupo4" class="coluna-lotes"></div>
+    <div id="grupo4" class="coluna-externa"></div>
   </div>
 
   <div id="info" class="info">Clique em um lote para ver mais informações.</div>
@@ -309,14 +347,8 @@ function desenharMapa(lotes) {
     grupos[id].forEach(lote => {
       const div = document.createElement("div");
       const status = normalizarStatus(lote.status);
-      const numero = numeroLote(lote.lote);
 
       div.className = `lote ${status}`;
-
-      if ((numero >= 1 && numero <= 13) || (numero >= 42 && numero <= 54)) {
-        div.classList.add("lote-maior");
-      }
-
       div.innerText = lote.lote;
 
       div.onclick = () => {
