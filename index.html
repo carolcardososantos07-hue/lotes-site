@@ -381,10 +381,12 @@ function desenharMapa(lotes) {
       numeroLote(l.lote) <= 27
     ),
 
-    grupo3: lotes.filter(
-      l => numeroLote(l.lote) >= 28 &&
-      numeroLote(l.lote) <= 41
-    ),
+    grupo3: lotes
+  .filter(
+    l => numeroLote(l.lote) >= 28 &&
+    numeroLote(l.lote) <= 41
+  )
+  .sort((a, b) => numeroLote(b.lote) - numeroLote(a.lote)),
 
     grupo4: lotes.filter(
       l => numeroLote(l.lote) >= 42 &&
